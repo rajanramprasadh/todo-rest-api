@@ -42,6 +42,10 @@ class TodoItemViewSet(viewsets.ModelViewSet):
     queryset = models.TodoListItem.objects.all()
     permission_classes = (permissions.UpdateTodoItem, IsAuthenticated)
 
+    def get_queryset(self):
+        """To restrict an user to see another user TODO list"""
+        return self.queryset.filter(user_profile=self.request.user)
+
     def perform_create(self, serializer):
         """Sets the user profile to the logged in User."""
 
